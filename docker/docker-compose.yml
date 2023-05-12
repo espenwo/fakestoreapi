@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  fake_store_db:
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=hello
+      - POSTGRES_PASSWORD=world
+      - POSTGRES_DB=hello_world
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./fakesstore-data:/var/lib/postgresql/data
+
+volumes:
+  fakestore-data:
