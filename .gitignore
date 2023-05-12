@@ -1,0 +1,7 @@
+docker/fakestore-data/
+docker/db/
+db/__pycache__/
+fakestore_api/__pycache__/
+schemas/__pycache__/
+scripts/__pycache__/
+__pycache__
