@@ -1,6 +1,7 @@
 
 
 import psycopg2
+import requests
 
 from sqlalchemy import create_engine  
 from sqlmodel import col
@@ -25,15 +26,25 @@ def main(args):
         # just to show that the api works
         if (args.run_api == "products"):
             api_data = Products().get_all()
-
+            for entry in api_data:
+                print(entry["image"])
+                with open('pic_tmp.jpg', 'wb') as handle:
+                    response = requests.get(entry["image"], stream=True)
+                    if not response.ok:
+                        print(response)
+                    for block in response.iter_content(1024):
+                        if not block:
+                            break
+                        handle.write(block)
+                break
         if (args.run_api == "users"):
             api_data = Users().get_all()
 
         if (args.run_api == "carts"):
             api_data = Carts().get_all()
 
-        for entry in api_data:
-            print(entry)
+        # for entry in api_data:
+        #     print(entry)
 
     if (args.repopulate_db):
         populate_new_db(db=fakestore_db)

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, LargeBinary
 from schemas import base
 
 class ProductsSchema(base):
@@ -11,6 +11,7 @@ class ProductsSchema(base):
     category = Column(String(100))
     rating_rate = Column(Float())
     rating_count = Column(Integer())
+    # image = Column(LargeBinary, nullable = True)
 
     def __init__(
             self, 
@@ -20,7 +21,8 @@ class ProductsSchema(base):
             description: str, 
             category: str, 
             rating_rate: float, 
-            rating_count: int
+            rating_count: int,
+            # image
             ):
         
         self.id = id
@@ -30,3 +32,4 @@ class ProductsSchema(base):
         self.category = category
         self.rating_rate = rating_rate
         self.rating_count = rating_count
+        # self.image = image

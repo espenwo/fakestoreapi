@@ -1,5 +1,4 @@
 from sqlmodel import Session
-from tqdm import tqdm
 
 from schemas.ProductsSchema import ProductsSchema
 from schemas.UsersSchema import UsersSchema
@@ -8,7 +7,9 @@ from schemas.CartsSchema import CartsSchema
 from fakestore_api.carts import Carts
 from fakestore_api.products import Products
 from fakestore_api.users import Users
-from tqdm import tqdm
+import requests
+import os
+
 
 
 def populate_new_db(db):
@@ -18,6 +19,14 @@ def populate_new_db(db):
     with db.Session() as s:
         product_schema_fixed = Products().fix_product_schema()
         for entry in product_schema_fixed:
+            # with open('pic_tmp.jpg', 'wb') as handle:
+            #     response = requests.get(entry["image"], stream=True)
+            #     if not response.ok:
+            #         print(response)
+            #     for block in response.iter_content(1024):
+            #         if not block:
+            #             break
+            #         handle.write(block)
             product_db_entry = ProductsSchema(
                 id = entry["id"],
                 title = entry["title"],
@@ -25,9 +34,12 @@ def populate_new_db(db):
                 description = entry["description"],
                 category = entry["category"],
                 rating_rate = entry["rating_rate"],
-                rating_count = entry["rating_count"]
+                rating_count = entry["rating_count"],
+                # image = "pic_tmp.jpg"
             )
             s.add(product_db_entry)
+            # if os.path.exists("pic_tmp.jpg"):
+            #     os.remove("pic_tmp.jpg")
         s.commit()
 
         users_schema_fixed = Users().fix_users_schema()
